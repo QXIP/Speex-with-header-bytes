@@ -861,18 +861,20 @@ int main(int argc, char **argv)
       if ((id+1)%nframes!=0)
          continue;
       speex_bits_insert_terminator(&bits);
-   if (with_headerbyte) {
+  /* Experimental: place the size of the frame as the first byte 
+     This is the packet format for MIME type x-speex-with-header-byte.*/
+  if (with_headerbyte) {
       nbBytes = speex_bits_write(&bits, cbits + 1, MAX_FRAME_BYTES);
       cbits[0]= (char)nbBytes;
       speex_bits_reset(&bits);
       op.packet = (unsigned char *)cbits;
       op.bytes = nbBytes + 1;
-   } else {
+  } else {
       nbBytes = speex_bits_write(&bits, cbits, MAX_FRAME_BYTES);
       speex_bits_reset(&bits);
       op.packet = (unsigned char *)cbits;
       op.bytes = nbBytes;
-   }
+  }
       op.b_o_s = 0;
       /*Is this redundent?*/
       if (eos && total_samples<=nb_encoded)
@@ -906,19 +908,21 @@ int main(int argc, char **argv)
          id++;
          speex_bits_pack(&bits, 15, 5);
       }
-    if (with_headerbyte) {
+  /* Experimental: place the size of the frame as the first byte 
+     This is the packet format for MIME type x-speex-with-header-byte.*/
+  if (with_headerbyte) {
       fprintf (stderr,"Debug: headerbyte binary format \n");
       nbBytes = speex_bits_write(&bits, cbits + 1, MAX_FRAME_BYTES);
       cbits[0] = (char)nbBytes;
       op.packet = (unsigned char *)cbits;
       op.bytes = nbBytes + 1;
 
-    } else {
+  } else {
       fprintf (stderr,"Debug: regular binary format \n");
       nbBytes = speex_bits_write(&bits, cbits, MAX_FRAME_BYTES);
       op.packet = (unsigned char *)cbits;
       op.bytes = nbBytes;    
-    }
+  }
       op.b_o_s = 0;
       op.e_o_s = 1;
       op.granulepos = (id+1)*frame_size-lookahead;
