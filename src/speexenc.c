@@ -272,7 +272,7 @@ int main(int argc, char **argv)
    int modeID = -1;
    void *st;
    SpeexBits bits;
-   char cbits[MAX_FRAME_BYTES + 1];
+   char cbits[MAX_FRAME_BYTES];
    int with_skeleton = 0;
    int with_headerbyte = 0;
    struct option long_options[] =
@@ -419,6 +419,7 @@ int main(int argc, char **argv)
          } else if (strcmp(long_options[option_index].name,"headerbyte")==0)
          {
             with_headerbyte=1;
+	    vbr_enabled=1;
 
          } else if (strcmp(long_options[option_index].name,"help")==0)
          {
