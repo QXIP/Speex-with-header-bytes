@@ -1,5 +1,16 @@
 SPEEXENC w/ header-byte *to be used with google speech recognition API*
 
+WORK IN PROGRESS!
+
+To use the (experimental) binary format for MIME "x-speex-with-header-byte":
+
+% speexenc --headerbyte --vbr --w --quality 8 input_file.wav compressed_file.spx
+
+To test against gapi:
+
+%  curl   --data-binary @compressed_file.spx   --header 'Content-type: audio/x-speex-with-header-byte; rate=16000'   'https://www.google.com/speech-api/v1/recognize?client=chromium&lang=en-US&maxresults=2'
+
+
 
 See INSTALL file for instruction on how to install Speex.
 
@@ -12,6 +23,4 @@ To use the Speex command line tools:
 % speexdec [options] compressed_file.spx output_file.wav
 
 
-To use the (experimental) binary format for MIME "x-speex-with-header-byte"
 
-% speexenc --headerbyte --vnr --quality 8 input_file.wav compressed_file.spx
