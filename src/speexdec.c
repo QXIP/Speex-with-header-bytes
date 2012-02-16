@@ -684,9 +684,10 @@ int main(int argc, char **argv)
 	       
                /*Copy Ogg packet to Speex bitstream*/
 	      if ( headerbyte ) { 
-              speex_bits_read_from(&bits, (char*)op.packet + 1, op.bytes);
+	       fprintf (stderr, "Decoding MIME x-speex-with-header-byte\n");
+               speex_bits_read_from(&bits, (char*)op.packet + 1, op.bytes);
 	      } else {
-              speex_bits_read_from(&bits, (char*)op.packet, op.bytes);
+               speex_bits_read_from(&bits, (char*)op.packet, op.bytes);
 	      }
                for (j=0;j!=nframes;j++)
                {
