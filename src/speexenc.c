@@ -419,12 +419,7 @@ int main(int argc, char **argv)
          } else if (strcmp(long_options[option_index].name,"headerbyte")==0)
          {
             with_headerbyte=1;
-<<<<<<< HEAD
 		    //vbr_enabled=1;
-=======
-	    /* Chromium Compliance? */
-	    /* vbr_enabled=1; */
->>>>>>> upstream/master
 
          } else if (strcmp(long_options[option_index].name,"help")==0)
          {
