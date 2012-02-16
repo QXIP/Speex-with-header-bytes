@@ -1,10 +1,13 @@
-SPEEXENC w/ header-byte *to be used with google speech recognition API*
+SPEEXENC & SPEEXDEC support for "x-speex-with-header-byte" MIME *to be used with google speech recognition API*
 
 WORKING STATUS! PLEASE TEST & GIVE US FEEDBACK!
 
 To use the (experimental) binary format for MIME "x-speex-with-header-byte":
 
-% speexenc --headerbyte --vbr --w --quality 2 input_file.wav compressed_file.spx
+% speexenc --headerbyte --vbr --w --quality 3 input_file.wav compressed_file.spx
+
+% speexdec --headerbyte compressed_file.spx decompressed_file.wav
+
 
 To test against gapi:
 

@@ -276,6 +276,7 @@ void usage()
    printf (" --mono                Force decoding in mono\n");
    printf (" --stereo              Force decoding in stereo\n");
    printf (" --rate n              Force decoding at sampling rate n Hz\n");
+   printf (" --headerbyte          Force decoding MIME x-speex-with-header-byte\n");
    printf (" --packet-loss n       Simulate n %% random packet loss\n");
    printf (" -V                    Verbose mode (show bit-rate)\n"); 
    printf (" -h, --help            This help\n");
@@ -450,6 +451,7 @@ int main(int argc, char **argv)
       {"force-nb", no_argument, NULL, 0},
       {"force-wb", no_argument, NULL, 0},
       {"force-uwb", no_argument, NULL, 0},
+      {"headerbyte", no_argument, NULL, 0},
       {"rate", required_argument, NULL, 0},
       {"mono", no_argument, NULL, 0},
       {"stereo", no_argument, NULL, 0},
@@ -466,6 +468,7 @@ int main(int argc, char **argv)
    int close_in=0;
    int eos=0;
    int forceMode=-1;
+   int headerbyte=0;
    int audio_size=0;
    float loss_percent=-1;
    SpeexStereoState stereo = SPEEX_STEREO_STATE_INIT;
@@ -524,6 +527,10 @@ int main(int argc, char **argv)
          } else if (strcmp(long_options[option_index].name,"force-wb")==0)
          {
             forceMode=1;
+
+         } else if (strcmp(long_options[option_index].name,"headerbyte")==0)
+         {
+            headerbyte=1;
          } else if (strcmp(long_options[option_index].name,"force-uwb")==0)
          {
             forceMode=2;
@@ -676,7 +683,12 @@ int main(int argc, char **argv)
                   eos=1;
 	       
                /*Copy Ogg packet to Speex bitstream*/
+	      if ( headerbyte ) { 
+	       fprintf (stderr, "Decoding MIME x-speex-with-header-byte\n");
+               speex_bits_read_from(&bits, (char*)op.packet + 1, op.bytes);
+	      } else {
                speex_bits_read_from(&bits, (char*)op.packet, op.bytes);
+	      }
                for (j=0;j!=nframes;j++)
                {
                   int ret;
