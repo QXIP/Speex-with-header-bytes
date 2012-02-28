@@ -234,6 +234,7 @@ void usage()
    printf ("                     used multiple times\n");
    printf (" --author           Author of this track\n");
    printf (" --title            Title for this track\n");
+   printf (" --quiet            No warnings or messages during encoding\n");
    printf (" -h, --help         This help\n");
    printf (" -v, --version      Version information\n");
    printf (" -V                 Verbose mode (show bit-rate)\n");
@@ -419,7 +420,6 @@ int main(int argc, char **argv)
          } else if (strcmp(long_options[option_index].name,"headerbyte")==0)
          {
             with_headerbyte=1;
-		    //vbr_enabled=1;
 
          } else if (strcmp(long_options[option_index].name,"help")==0)
          {
@@ -689,17 +689,17 @@ int main(int argc, char **argv)
    }
    if (dtx_enabled)
       speex_encoder_ctl(st, SPEEX_SET_DTX, &tmp);
-   if (dtx_enabled && !(vbr_enabled || abr_enabled || vad_enabled))
+   if (dtx_enabled && !(vbr_enabled || abr_enabled || vad_enabled) && !quiet)
    {
       fprintf (stderr, "Warning: --dtx is useless without --vad, --vbr or --abr\n");
-   } else if ((vbr_enabled || abr_enabled) && (vad_enabled))
+   } else if ((vbr_enabled || abr_enabled) && (vad_enabled) && !quiet)
    {
       fprintf (stderr, "Warning: --vad is already implied by --vbr or --abr\n");
    }
-   if (with_skeleton) {
+   if (with_skeleton && !quiet) {
       fprintf (stderr, "Warning: Enabling skeleton output may cause some decoders to fail.\n");
    }
-   if (with_headerbyte) {
+   if (with_headerbyte && !quiet) {
       fprintf (stderr, "Warning: with-header-byte output will not be compatible with most decoders.\n");
    }
 

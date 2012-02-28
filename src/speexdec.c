@@ -278,6 +278,7 @@ void usage()
    printf (" --rate n              Force decoding at sampling rate n Hz\n");
    printf (" --headerbyte          Force decoding MIME x-speex-with-header-byte\n");
    printf (" --packet-loss n       Simulate n %% random packet loss\n");
+   printf (" --quiet               No warnings or messages during decoding\n");
    printf (" -V                    Verbose mode (show bit-rate)\n");
    printf (" -h, --help            This help\n");
    printf (" -v, --version         Version information\n");
