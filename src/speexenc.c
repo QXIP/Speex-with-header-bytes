@@ -1,21 +1,21 @@
-/* Copyright (C) 2002-2006 Jean-Marc Valin 
+/* Copyright (C) 2002-2006 Jean-Marc Valin
    File: speexenc.c
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions
    are met:
-   
+
    - Redistributions of source code must retain the above copyright
    notice, this list of conditions and the following disclaimer.
-   
+
    - Redistributions in binary form must reproduce the above copyright
    notice, this list of conditions and the following disclaimer in the
    documentation and/or other materials provided with the distribution.
-   
+
    - Neither the name of the Xiph.org Foundation nor the names of its
    contributors may be used to endorse or promote products derived from
    this software without specific prior written permission.
-   
+
    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
    ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -73,7 +73,7 @@ int oe_write_page(ogg_page *page, FILE *fp)
    int written;
    written = fwrite(page->header,1,page->header_len, fp);
    written += fwrite(page->body,1,page->body_len, fp);
-   
+
    return written;
 }
 
@@ -82,7 +82,7 @@ int oe_write_page(ogg_page *page, FILE *fp)
 
 /* Convert input audio bits, endians and channels */
 static int read_samples(FILE *fin,int frame_size, int bits, int channels, int lsb, short * input, char *buff, spx_int32_t *size)
-{   
+{
    unsigned char in[MAX_FRAME_BYTES*2];
    int i;
    short *s;
@@ -124,8 +124,8 @@ static int read_samples(FILE *fin,int frame_size, int bits, int channels, int ls
       /* convert to our endian format */
       for(i=0;i<frame_size*channels;i++)
       {
-         if(lsb) 
-            s[i]=le_short(s[i]); 
+         if(lsb)
+            s[i]=le_short(s[i]);
          else
             s[i]=be_short(s[i]);
       }
@@ -208,43 +208,44 @@ void usage()
    printf ("  filename.wav      wav file\n");
    printf ("  filename.*        Raw PCM file (any extension other than .wav)\n");
    printf ("  -                 stdin\n");
-   printf ("\n");  
+   printf ("\n");
    printf ("output_file can be:\n");
    printf ("  filename.spx      Speex file\n");
    printf ("  -                 stdout\n");
-   printf ("\n");  
+   printf ("\n");
    printf ("Options:\n");
-   printf (" -n, --narrowband   Narrowband (8 kHz) input file\n"); 
-   printf (" -w, --wideband     Wideband (16 kHz) input file\n"); 
-   printf (" -u, --ultra-wideband \"Ultra-wideband\" (32 kHz) input file\n"); 
-   printf (" --quality n        Encoding quality (0-10), default 8\n"); 
-   printf (" --bitrate n        Encoding bit-rate (use bit-rate n or lower)\n"); 
-   printf (" --vbr              Enable variable bit-rate (VBR)\n"); 
-   printf (" --vbr-max-bitrate  Set max VBR bit-rate allowed\n"); 
-   printf (" --abr rate         Enable average bit-rate (ABR) at rate bps\n"); 
-   printf (" --vad              Enable voice activity detection (VAD)\n"); 
-   printf (" --dtx              Enable file-based discontinuous transmission (DTX)\n"); 
-   printf (" --comp n           Set encoding complexity (0-10), default 3\n"); 
-   printf (" --nframes n        Number of frames per Ogg packet (1-10), default 1\n"); 
-   printf (" --denoise          Denoise the input before encoding\n"); 
-   printf (" --agc              Apply adaptive gain control (AGC) before encoding\n"); 
+   printf (" -n, --narrowband   Narrowband (8 kHz) input file\n");
+   printf (" -w, --wideband     Wideband (16 kHz) input file\n");
+   printf (" -u, --ultra-wideband \"Ultra-wideband\" (32 kHz) input file\n");
+   printf (" --quality n        Encoding quality (0-10), default 8\n");
+   printf (" --bitrate n        Encoding bit-rate (use bit-rate n or lower)\n");
+   printf (" --vbr              Enable variable bit-rate (VBR)\n");
+   printf (" --vbr-max-bitrate  Set max VBR bit-rate allowed\n");
+   printf (" --abr rate         Enable average bit-rate (ABR) at rate bps\n");
+   printf (" --vad              Enable voice activity detection (VAD)\n");
+   printf (" --dtx              Enable file-based discontinuous transmission (DTX)\n");
+   printf (" --comp n           Set encoding complexity (0-10), default 3\n");
+   printf (" --nframes n        Number of frames per Ogg packet (1-10), default 1\n");
+   printf (" --denoise          Denoise the input before encoding\n");
+   printf (" --agc              Apply adaptive gain control (AGC) before encoding\n");
    printf (" --skeleton         Outputs ogg skeleton metadata (may cause incompatibilities)\n");
    printf (" --headerbyte       Outputs x-speex-with-header-byte (may cause incompatibilities)\n");
    printf (" --comment          Add the given string as an extra comment. This may be\n");
    printf ("                     used multiple times\n");
    printf (" --author           Author of this track\n");
    printf (" --title            Title for this track\n");
-   printf (" -h, --help         This help\n"); 
-   printf (" -v, --version      Version information\n"); 
-   printf (" -V                 Verbose mode (show bit-rate)\n"); 
+   printf (" --quiet            No warnings or messages during encoding\n");
+   printf (" -h, --help         This help\n");
+   printf (" -v, --version      Version information\n");
+   printf (" -V                 Verbose mode (show bit-rate)\n");
    printf ("Raw input options:\n");
-   printf (" --rate n           Sampling rate for raw input\n"); 
-   printf (" --stereo           Consider raw input as stereo\n"); 
-   printf (" --le               Raw input is little-endian\n"); 
-   printf (" --be               Raw input is big-endian\n"); 
-   printf (" --8bit             Raw input is 8-bit unsigned\n"); 
-   printf (" --16bit            Raw input is 16-bit signed\n"); 
-   printf ("Default raw PCM input is 16-bit, little-endian, mono\n"); 
+   printf (" --rate n           Sampling rate for raw input\n");
+   printf (" --stereo           Consider raw input as stereo\n");
+   printf (" --le               Raw input is little-endian\n");
+   printf (" --be               Raw input is big-endian\n");
+   printf (" --8bit             Raw input is 8-bit unsigned\n");
+   printf (" --16bit            Raw input is 16-bit signed\n");
+   printf ("Default raw PCM input is 16-bit, little-endian, mono\n");
    printf ("\n");
    printf ("More information is available from the Speex site: http://www.speex.org\n");
    printf ("\n");
@@ -342,7 +343,7 @@ int main(int argc, char **argv)
 
    speex_lib_ctl(SPEEX_LIB_GET_VERSION_STRING, (void*)&speex_version);
    snprintf(vendor_string, sizeof(vendor_string), "Encoded with Speex %s", speex_version);
-   
+
    comment_init(&comments, &comments_length, vendor_string);
 
    /*Process command-line options*/
@@ -352,7 +353,7 @@ int main(int argc, char **argv)
                        long_options, &option_index);
       if (c==-1)
          break;
-      
+
       switch(c)
       {
       case 0:
@@ -419,8 +420,6 @@ int main(int argc, char **argv)
          } else if (strcmp(long_options[option_index].name,"headerbyte")==0)
          {
             with_headerbyte=1;
-	    /* Chromium Compliance? */
-	    /* vbr_enabled=1; */
 
          } else if (strcmp(long_options[option_index].name,"help")==0)
          {
@@ -463,13 +462,13 @@ int main(int argc, char **argv)
 	     fprintf (stderr, "Comments must be of the form name=value\n");
 	     exit(1);
 	   }
-           comment_add(&comments, &comments_length, NULL, optarg); 
+           comment_add(&comments, &comments_length, NULL, optarg);
          } else if (strcmp(long_options[option_index].name,"author")==0)
          {
-           comment_add(&comments, &comments_length, "author=", optarg); 
+           comment_add(&comments, &comments_length, "author=", optarg);
          } else if (strcmp(long_options[option_index].name,"title")==0)
          {
-           comment_add(&comments, &comments_length, "title=", optarg); 
+           comment_add(&comments, &comments_length, "title=", optarg);
          }
 
          break;
@@ -529,7 +528,7 @@ int main(int argc, char **argv)
 #endif
       fin=stdin;
    }
-   else 
+   else
    {
       fin = fopen(inFile, "rb");
       if (!fin)
@@ -616,7 +615,7 @@ int main(int argc, char **argv)
 
    if (!quiet)
       if (rate!=8000 && rate!=16000 && rate!=32000)
-         fprintf (stderr, "Warning: Speex is only optimized for 8, 16 and 32 kHz. It will still work at %d Hz but your mileage may vary\n", rate); 
+         fprintf (stderr, "Warning: Speex is only optimized for 8, 16 and 32 kHz. It will still work at %d Hz but your mileage may vary\n", rate);
 
    if (!mode)
       mode = speex_lib_get_mode (modeID);
@@ -631,10 +630,10 @@ int main(int argc, char **argv)
       if (chan==2)
          st_string="stereo";
       if (!quiet)
-         fprintf (stderr, "Encoding %d Hz audio using %s mode (%s)\n", 
+         fprintf (stderr, "Encoding %d Hz audio using %s mode (%s)\n",
                header.rate, mode->modeName, st_string);
    }
-   /*fprintf (stderr, "Encoding %d Hz audio at %d bps using %s mode\n", 
+   /*fprintf (stderr, "Encoding %d Hz audio at %d bps using %s mode\n",
      header.rate, mode->bitrate, mode->modeName);*/
 
    /*Initialize Speex encoder*/
@@ -647,7 +646,7 @@ int main(int argc, char **argv)
 #endif
       fout=stdout;
    }
-   else 
+   else
    {
       fout = fopen(outFile, "wb");
       if (!fout)
@@ -690,19 +689,19 @@ int main(int argc, char **argv)
    }
    if (dtx_enabled)
       speex_encoder_ctl(st, SPEEX_SET_DTX, &tmp);
-   if (dtx_enabled && !(vbr_enabled || abr_enabled || vad_enabled))
+   if (dtx_enabled && !(vbr_enabled || abr_enabled || vad_enabled) && !quiet)
    {
       fprintf (stderr, "Warning: --dtx is useless without --vad, --vbr or --abr\n");
-   } else if ((vbr_enabled || abr_enabled) && (vad_enabled))
+   } else if ((vbr_enabled || abr_enabled) && (vad_enabled) && !quiet)
    {
       fprintf (stderr, "Warning: --vad is already implied by --vbr or --abr\n");
    }
-   if (with_skeleton) {
+   if (with_skeleton && !quiet) {
       fprintf (stderr, "Warning: Enabling skeleton output may cause some decoders to fail.\n");
    }
-   if (with_headerbyte) {
+   if (with_headerbyte && !quiet) {
       fprintf (stderr, "Warning: with-header-byte output will not be compatible with most decoders.\n");
-   } 
+   }
 
    if (abr_enabled)
    {
@@ -710,7 +709,7 @@ int main(int argc, char **argv)
    }
 
    speex_encoder_ctl(st, SPEEX_GET_LOOKAHEAD, &lookahead);
-   
+
    if (denoise_enabled || agc_enabled)
    {
       preprocess = speex_preprocess_state_init(frame_size, rate);
@@ -825,7 +824,7 @@ int main(int argc, char **argv)
          speex_preprocess(preprocess, input, NULL);
 
       speex_encode_int(st, input, &bits);
-      
+
       nb_encoded += frame_size;
       if (print_bitrate) {
          int tmp;
@@ -841,7 +840,7 @@ int main(int argc, char **argv)
             else
                fprintf (stderr, "Bitrate is use: %d bps     ", tmp);
          }
-         
+
       }
 
       if (wave_input)
@@ -863,7 +862,7 @@ int main(int argc, char **argv)
       if ((id+1)%nframes!=0)
          continue;
       speex_bits_insert_terminator(&bits);
-  /* Experimental: place the size of the frame as the first byte 
+  /* Experimental: place the size of the frame as the first byte
      This is the packet format for MIME type x-speex-with-header-byte.*/
   if (with_headerbyte) {
       nbBytes = speex_bits_write(&bits, cbits + 1, MAX_FRAME_BYTES);
@@ -910,7 +909,7 @@ int main(int argc, char **argv)
          id++;
          speex_bits_pack(&bits, 15, 5);
       }
-  /* Experimental: place the size of the frame as the first byte 
+  /* Experimental: place the size of the frame as the first byte
      This is the packet format for MIME type x-speex-with-header-byte.*/
   if (with_headerbyte) {
       fprintf (stderr,"Debug: headerbyte binary format \n");
@@ -923,7 +922,7 @@ int main(int argc, char **argv)
       fprintf (stderr,"Debug: regular binary format \n");
       nbBytes = speex_bits_write(&bits, cbits, MAX_FRAME_BYTES);
       op.packet = (unsigned char *)cbits;
-      op.bytes = nbBytes;    
+      op.bytes = nbBytes;
   }
       op.b_o_s = 0;
       op.e_o_s = 1;
@@ -958,8 +957,8 @@ int main(int argc, char **argv)
    return 0;
 }
 
-/*                 
- Comments will be stored in the Vorbis style.            
+/*
+ Comments will be stored in the Vorbis style.
  It is describled in the "Structure" section of
     http://www.xiph.org/ogg/vorbis/doc/v-comment.html
 
